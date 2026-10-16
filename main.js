@@ -69,16 +69,16 @@ function createDomElement(elementName, className, dataName, dataValue) {
     return domElement;
 }
 
-function insertDomElements(li, btn) {
-    btn.innerText = 'X'
-    li.insertAdjacentElement("beforeend", btn);
-    list.insertAdjacentElement("beforeend", li);
+function insertToList(elem1, elem2) {
+    elem1.insertAdjacentElement("beforeend", elem1, elem2);
+    list.insertAdjacentElement("beforeend", elem1);
 }
 
 function renderTodo({ li, button } = {}) {
     if (li && button) {
         li.innerText = inputValue;
-        insertDomElements(li, button)
+        button.innerText = 'X'
+        insertToList(li, button)
     } else if (todos.length) {
         todos.forEach(({
             id,
@@ -90,7 +90,7 @@ function renderTodo({ li, button } = {}) {
             li.id = id;
             li.innerText = text;
             li.setAttribute('data-done', done);
-            insertDomElements(li, button);
+            insertToList(li, button);
         })
     }
 }
