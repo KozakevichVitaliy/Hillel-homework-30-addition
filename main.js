@@ -62,7 +62,7 @@ async function deleteTodo (id) {
 
 
 // DOM manipulations
-function createDomElement(elementName, className, dataName = '', dataValue) {
+function createDomElement(elementName, className, dataName, dataValue) {
     const domElement = document.createElement(elementName);
     domElement.classList.add(className);
     if (dataName) domElement.setAttribute(dataName, dataValue);
