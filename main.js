@@ -70,6 +70,7 @@ function createDomElement(elementName, className, dataName, dataValue) {
 }
 
 function insertToList(elem1, elem2) {
+    elem2.innerText = 'X'
     elem1.insertAdjacentElement("beforeend", elem2);
     list.insertAdjacentElement("beforeend", elem1);
 }
@@ -77,7 +78,6 @@ function insertToList(elem1, elem2) {
 function renderTodo({ li, button } = {}) {
     if (li && button) {
         li.innerText = inputValue;
-        button.innerText = 'X'
         insertToList(li, button)
     } else if (todos.length) {
         todos.forEach(({
