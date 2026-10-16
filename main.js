@@ -5,7 +5,7 @@ const list = document.getElementById('todos-list');
 let todos = []
 let inputValue;
 
-// async/await functions
+// CRUD functions
 async function App () {
     todos = await getTodos()
     renderTodo()
