@@ -1,0 +1,14 @@
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+.todo-list li { 
+    cursor: pointer; 
+}
+.todo-list li[data-done="true"] { 
+    text-decoration: line-through; opacity: .6; 
+}
+.todo-list li button { 
+    margin-left: 8px; 
+}
