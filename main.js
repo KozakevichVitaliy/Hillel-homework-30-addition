@@ -12,7 +12,7 @@ async function App () {
     countDoneStatus()
 }
 
-async function getTodos () {
+async function getTodos() {
     try {
         let response = await fetch('https://6ace3a4af338359cf1c34b0b.mockapi.io/todos');
         let data = await response.json();
@@ -22,7 +22,7 @@ async function getTodos () {
     }
 }
 
-async function postTodo (todo) {
+async function postTodo(todo) {
     try {
         await fetch('https://6ace3a4af338359cf1c34b0b.mockapi.io/todos', {
             method: 'POST',
@@ -36,7 +36,7 @@ async function postTodo (todo) {
     }
 }
 
-async function updateTodo (id, done) {
+async function updateTodo(id, done) {
     try {
         await fetch(`https://6ace3a4af338359cf1c34b0b.mockapi.io/todos/${id}`, {
             method: 'PUT',
@@ -50,7 +50,7 @@ async function updateTodo (id, done) {
     }
 }
 
-async function deleteTodo (id) {
+async function deleteTodo(id) {
     try {
         await fetch(`https://6ace3a4af338359cf1c34b0b.mockapi.io/todos/${id}`, {
             method: 'DELETE'
