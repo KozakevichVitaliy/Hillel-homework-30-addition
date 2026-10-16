@@ -70,7 +70,7 @@ function createDomElement(elementName, className, dataName, dataValue) {
 }
 
 function insertToList(elem1, elem2) {
-    elem1.insertAdjacentElement("beforeend", elem1, elem2);
+    elem1.insertAdjacentElement("beforeend", elem2);
     list.insertAdjacentElement("beforeend", elem1);
 }
 
