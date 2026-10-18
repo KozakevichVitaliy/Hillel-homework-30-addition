@@ -2,20 +2,21 @@ const form = document.getElementById('form');
 const input = document.getElementById('input');
 const status = document.getElementById('done');
 const list = document.getElementById('todos-list');
+const todosNodes = document.querySelectorAll('.todo');
 let todos = []
 let inputValue;
 
 // CRUD functions
 async function App () {
     todos = await getTodos()
-    renderTodo()
-    countDoneStatus()
+    renderTodos()
+    renderDoneStatus()
 }
 
 async function getTodos() {
     try {
-        let response = await fetch('https://6ace3a4af338359cf1c34b0b.mockapi.io/todos');
-        let data = await response.json();
+        const response = await fetch('https://6ace3a4af338359cf1c34b0b.mockapi.io/todos');
+        const data = await response.json();
         return data;
     } catch (error) {
         console.error("Сталася помилка під час завантаження:", error);
@@ -62,44 +63,48 @@ async function deleteTodo(id) {
 
 
 // DOM manipulations
-function createDomElement(elementName, className, dataName, dataValue) {
+function createDomElement(elementName, className, content, dataName, dataValue) {
     const domElement = document.createElement(elementName);
     domElement.classList.add(className);
+    domElement.innerText = content;
     if (dataName) domElement.setAttribute(dataName, dataValue);
     return domElement;
 }
 
-function insertToList(elem1, elem2) {
-    elem2.innerText = 'X'
-    elem1.insertAdjacentElement("beforeend", elem2);
-    list.insertAdjacentElement("beforeend", elem1);
+function insertTodosToList(todo, ...childNodes) {
+    childNodes.forEach(item => todo.insertAdjacentElement("beforeend", item))
+    list.insertAdjacentElement("beforeend", todo);
 }
 
-function renderTodo({ li, button } = {}) {
-    if (li && button) {
-        li.innerText = inputValue;
-        insertToList(li, button)
+function renderTodos() {
+    if (inputValue) {
+        const li = createDomElement('li', 'todo', inputValue, 'data-done', false);
+        const btnDelete = createDomElement('button', 'todo__btn--delete', 'X');
+        insertTodosToList(li, btnDelete)
     } else if (todos.length) {
         todos.forEach(({
             id,
             text,
             done
         }) => {
-            const li = createDomElement('li', 'todo');
-            const button = createDomElement('button', 'todo__btn--delete');
+            const li = createDomElement(
+                'li', 
+                'todo',
+                text, 
+                'data-done',
+                done
+            );
+            const button = createDomElement('button', 'todo__btn--delete', 'X');
             li.id = id;
-            li.innerText = text;
-            li.setAttribute('data-done', done);
-            insertToList(li, button);
+            insertTodosToList(li, button);
         })
     }
 }
 
-function countDoneStatus() {
-    const doneStatusCount = document.querySelectorAll('[data-done="true"]');
-    const todosCount = document.querySelectorAll('.todo');
-    
-    status.innerText = `Виконано: ${doneStatusCount.length}/${todosCount.length}`;
+function renderDoneStatus() {
+    const doneTodosNodes = document.querySelectorAll('[data-done="true"]');
+    const todosNodes = document.querySelectorAll('.todo');
+    status.innerText = `Виконано: ${doneTodosNodes.length}/${todosNodes.length}`;
 }
 
 
@@ -107,15 +112,12 @@ function countDoneStatus() {
 function handleSumbitForm() {
     if (!inputValue) return null;
     
-    renderTodo({
-        li: createDomElement('li', 'todo', 'data-done', false),
-        button: createDomElement('button', 'todo__btn--delete')
-    })
+    renderTodos()
+    renderDoneStatus()
     postTodo({
         text: inputValue, 
         done: false
     }) 
-    countDoneStatus()
     form.reset();
 }
 input.addEventListener('input', (e) => inputValue = e.target.value.trim());
@@ -134,7 +136,7 @@ list.addEventListener('click', (e) => {
         e.target.closest('li').dataset.done = doneStatus;
         updateTodo(e.target.closest('li').id, doneStatus);
     }
-    countDoneStatus()
+    renderDoneStatus()
 })
 
 
