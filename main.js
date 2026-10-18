@@ -2,7 +2,6 @@ const form = document.getElementById('form');
 const input = document.getElementById('input');
 const status = document.getElementById('done');
 const list = document.getElementById('todos-list');
-const todosNodes = document.querySelectorAll('.todo');
 let todos = []
 let inputValue;
 
