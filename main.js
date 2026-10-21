@@ -2,12 +2,12 @@ const form = document.getElementById('form');
 const input = document.getElementById('input');
 const status = document.getElementById('done');
 const list = document.getElementById('todos-list');
-let todos = []
+let todosData = []
 let inputValue;
 
 // CRUD functions
 async function App () {
-    todos = await getTodos()
+    todosData = await getTodos()
     renderTodos()
     renderDoneStatus()
 }
@@ -70,18 +70,14 @@ function createDomElement(elementName, className, content, dataName, dataValue) 
     return domElement;
 }
 
-function insertTodosToList(todo, ...childNodes) {
-    childNodes.forEach(item => todo.insertAdjacentElement("beforeend", item))
-    list.insertAdjacentElement("beforeend", todo);
-}
-
 function renderTodos() {
     if (inputValue) {
         const li = createDomElement('li', 'todo', inputValue, 'data-done', false);
         const btnDelete = createDomElement('button', 'todo__btn--delete', 'X');
-        insertTodosToList(li, btnDelete)
-    } else if (todos.length) {
-        todos.forEach(({
+        li.insertAdjacentElement("beforeend", btnDelete);
+        list.insertAdjacentElement("beforeend", li);
+    } else if (todosData.length) {
+        const todoElements = todosData.map(({
             id,
             text,
             done
@@ -93,10 +89,12 @@ function renderTodos() {
                 'data-done',
                 done
             );
-            const button = createDomElement('button', 'todo__btn--delete', 'X');
+            const btnDelete = createDomElement('button', 'todo__btn--delete', 'X');
+            li.insertAdjacentElement("beforeend", btnDelete);
             li.id = id;
-            insertTodosToList(li, button);
-        })
+            return li;
+        });
+        list.append(...todoElements);
     }
 }
 
