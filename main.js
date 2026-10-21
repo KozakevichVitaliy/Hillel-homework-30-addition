@@ -2,11 +2,11 @@ const form = document.getElementById('form');
 const input = document.getElementById('input');
 const status = document.getElementById('done');
 const list = document.getElementById('todos-list');
-let todosData = []
+let todosData;
 let inputValue;
 
 // CRUD functions
-async function App () {
+async function App() {
     todosData = await getTodos()
     renderTodos()
     renderDoneStatus()
@@ -82,13 +82,7 @@ function renderTodos() {
             text,
             done
         }) => {
-            const li = createDomElement(
-                'li', 
-                'todo',
-                text, 
-                'data-done',
-                done
-            );
+            const li = createDomElement('li', 'todo', text, 'data-done', done);
             const btnDelete = createDomElement('button', 'todo__btn--delete', 'X');
             li.insertAdjacentElement("beforeend", btnDelete);
             li.id = id;
@@ -137,6 +131,4 @@ list.addEventListener('click', (e) => {
     renderDoneStatus()
 })
 
-
 App()
-
