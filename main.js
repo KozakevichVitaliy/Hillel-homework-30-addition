@@ -116,6 +116,7 @@ function handleSumbitForm() {
         done: false
     }) 
     form.reset();
+    inputValue = '';
 }
 input.addEventListener('input', (e) => inputValue = e.target.value.trim());
 form.addEventListener('submit', (e) => {
